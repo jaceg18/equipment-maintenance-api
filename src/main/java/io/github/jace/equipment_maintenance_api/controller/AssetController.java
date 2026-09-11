@@ -1,13 +1,11 @@
 package io.github.jace.equipment_maintenance_api.controller;
 
 import io.github.jace.equipment_maintenance_api.model.Asset;
-import io.github.jace.equipment_maintenance_api.model.Ticket;
 import io.github.jace.equipment_maintenance_api.service.AssetService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/assets")

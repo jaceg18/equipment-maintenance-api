@@ -31,6 +31,11 @@ public class TicketController {
         return ticketService.getTicket(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/assets/{assetId}")
+    public ResponseEntity<List<Ticket>> getTicketsByAsset(@PathVariable Integer assetId) {
+        return ResponseEntity.ok(ticketService.getTicketsByAsset(assetId));
+    }
+
     @PatchMapping("/{id}/status")
     public ResponseEntity<Ticket> updateStatus(@PathVariable int id, @RequestBody StatusRequest request){
         return ticketService.updateStatus(id, request.status()).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());

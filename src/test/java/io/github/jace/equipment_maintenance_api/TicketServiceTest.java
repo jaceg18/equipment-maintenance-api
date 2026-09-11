@@ -215,4 +215,40 @@ class TicketServiceTest {
         verify(ticketRepository)
                 .findByStatusAndPriority(Status.OPEN, Priority.HIGH);
     }
+
+    @Test
+    void shouldReturnTicketsForAsset() {
+        Integer assetId = 1;
+
+        Ticket ticket1 = new Ticket();
+        Ticket ticket2 = new Ticket();
+
+        List<Ticket> expectedTickets = List.of(ticket1, ticket2);
+
+        when(assetRepository.existsById(assetId)).thenReturn(true);
+        when(ticketRepository.findByAssetId(assetId)).thenReturn(expectedTickets);
+
+        List<Ticket> result = ticketService.getTicketsByAsset(assetId);
+
+        assertEquals(2, result.size());
+        assertEquals(expectedTickets, result);
+
+        verify(assetRepository).existsById(assetId);
+        verify(ticketRepository).findByAssetId(assetId);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenAssetDoesNotExist() {
+        Integer assetId = 999;
+
+        when(assetRepository.existsById(assetId)).thenReturn(false);
+
+        assertThrows(
+                AssetNotFoundException.class,
+                () -> ticketService.getTicketsByAsset(assetId)
+        );
+
+        verify(assetRepository).existsById(assetId);
+        verify(ticketRepository, never()).findByAssetId(assetId);
+    }
 }

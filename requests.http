@@ -1,0 +1,122 @@
+@host = http://localhost:8080
+
+### =========================
+### TICKETS
+### =========================
+
+### Get all tickets
+GET {{host}}/tickets
+Accept: application/json
+
+
+### Get ticket by ID
+GET {{host}}/tickets/1
+Accept: application/json
+
+
+### Create ticket
+POST {{host}}/tickets
+Content-Type: application/json
+
+{
+  "description": "Hydraulic leak",
+  "priority": "HIGH",
+  "assetId": 1
+}
+
+
+### Update ticket status
+PATCH {{host}}/tickets/1/status
+Content-Type: application/json
+
+{
+  "status": "IN_PROGRESS"
+}
+
+
+### =========================
+### ASSETS
+### =========================
+
+### Create asset
+POST {{host}}/assets
+Content-Type: application/json
+
+{
+  "name": "Hydraulic Pump",
+  "location": "Production Floor"
+}
+
+### Get all assets
+GET {{host}}/assets
+Accept: application/json
+
+
+### Get asset by ID
+GET {{host}}/assets/1
+Accept: application/json
+
+
+### Get all tickets for an asset
+GET {{host}}/tickets/assets/1
+Accept: application/json
+
+
+### =========================
+### ERROR / VALIDATION TESTS
+### =========================
+
+### Get tickets for nonexistent asset
+GET {{host}}/assets/99999/tickets
+Accept: application/json
+
+
+### Create ticket with nonexistent asset
+POST {{host}}/tickets
+Content-Type: application/json
+
+{
+  "description": "Motor making horrible noises",
+  "priority": "HIGH",
+  "assetId": 99999
+}
+
+
+### Create ticket with blank description
+POST {{host}}/tickets
+Content-Type: application/json
+
+{
+  "description": "",
+  "priority": "HIGH",
+  "assetId": 1
+}
+
+
+### Create ticket with missing priority
+POST {{host}}/tickets
+Content-Type: application/json
+
+{
+  "description": "Conveyor belt slipping",
+  "assetId": 1
+}
+
+
+### Create ticket with missing asset ID
+POST {{host}}/tickets
+Content-Type: application/json
+
+{
+  "description": "Pump overheating",
+  "priority": "MEDIUM"
+}
+
+
+### Update ticket with invalid status
+PATCH {{host}}/tickets/1/status
+Content-Type: application/json
+
+{
+  "status": "NOT_A_REAL_STATUS"
+}

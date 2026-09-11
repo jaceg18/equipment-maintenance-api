@@ -39,6 +39,12 @@ public class TicketService {
 
     public Optional<Ticket> getTicket(int id){return ticketRepository.findById(id);}
 
+
+    public List<Ticket> getTicketsByAsset(Integer assetId) {
+        if (!assetRepository.existsById(assetId)) throw new AssetNotFoundException(assetId);
+        return ticketRepository.findByAssetId(assetId);
+    }
+
     public Optional<Ticket> updateStatus(int id, Status newStatus) {
         Optional<Ticket> target = ticketRepository.findById(id);
         target.ifPresent(ticket -> ticketRepository.save(ticket.setStatus(newStatus)));
