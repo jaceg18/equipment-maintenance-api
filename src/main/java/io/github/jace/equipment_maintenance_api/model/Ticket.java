@@ -35,11 +35,14 @@ public class Ticket {
     public Status getStatus(){return status;}
     public Asset getAsset(){return asset;}
 
-    public Ticket build(TicketRequest request, Asset asset){
-        this.description = request.getDescription();
-        this.priority = request.getPriority();
-        this.status = Status.OPEN;
-        this.asset = asset;
-        return this;
+    // TicketRequest contains the asset ID, but the service resolves the Asset
+    // before constructing the Ticket so entity lookup stays out of this class.
+    public static Ticket from(TicketRequest request, Asset asset){
+        Ticket ticket = new Ticket();
+        ticket.description = request.description();
+        ticket.priority = request.priority();
+        ticket.status = Status.OPEN;
+        ticket.asset = asset;
+        return ticket;
     }
 }

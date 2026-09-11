@@ -2,7 +2,6 @@ package io.github.jace.equipment_maintenance_api.controller;
 
 import io.github.jace.equipment_maintenance_api.dto.StatusRequest;
 import io.github.jace.equipment_maintenance_api.dto.TicketRequest;
-import io.github.jace.equipment_maintenance_api.model.Asset;
 import io.github.jace.equipment_maintenance_api.model.Priority;
 import io.github.jace.equipment_maintenance_api.model.Status;
 import io.github.jace.equipment_maintenance_api.model.Ticket;
@@ -34,7 +33,7 @@ public class TicketController {
 
     @PatchMapping("/{id}/status")
     public ResponseEntity<Ticket> updateStatus(@PathVariable int id, @RequestBody StatusRequest request){
-        return ticketService.updateStatus(id, request.getStatus()).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return ticketService.updateStatus(id, request.status()).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping public Ticket createTicket(@Valid @RequestBody TicketRequest request){return ticketService.createTicket(request);}

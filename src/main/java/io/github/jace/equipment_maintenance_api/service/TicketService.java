@@ -32,9 +32,9 @@ public class TicketService {
     }
 
     public Ticket createTicket(TicketRequest request) {
-        Asset asset = assetRepository.findById(request.getAssetId())
-                .orElseThrow(() -> new AssetNotFoundException(request.getAssetId()));
-        return ticketRepository.save(new Ticket().build(request, asset));
+        Asset asset = assetRepository.findById(request.assetId())
+                .orElseThrow(() -> new AssetNotFoundException(request.assetId()));
+        return ticketRepository.save(Ticket.from(request, asset));
     }
 
     public Optional<Ticket> getTicket(int id){return ticketRepository.findById(id);}

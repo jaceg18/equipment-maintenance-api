@@ -14,7 +14,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -27,11 +26,9 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class TicketServiceTest {
 
-    @Mock
-    private TicketRepository ticketRepository;
+    @Mock private TicketRepository ticketRepository;
 
-    @Mock
-    private AssetRepository assetRepository;
+    @Mock private AssetRepository assetRepository;
 
     private TicketService ticketService;
 
@@ -48,15 +45,11 @@ class TicketServiceTest {
         asset.setName("CNC Machine #4");
         asset.setLocation("Building A");
 
-        TicketRequest request = new TicketRequest();
-        request.setDescription("Hydraulic leak");
-        request.setPriority(Priority.HIGH);
-        request.setAssetId(1);
+        TicketRequest request = new TicketRequest("Hydraulic Leak", Priority.HIGH, 1);
 
         when(assetRepository.findById(1))
                 .thenReturn(Optional.of(asset));
 
-        // Make save() return whatever Ticket was passed to it
         when(ticketRepository.save(any(Ticket.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
@@ -76,10 +69,7 @@ class TicketServiceTest {
     @Test
     void createTicket_WithMissingAsset_ThrowsAssetNotFoundException() {
         // Arrange
-        TicketRequest request = new TicketRequest();
-        request.setDescription("Something broke");
-        request.setPriority(Priority.HIGH);
-        request.setAssetId(999);
+        TicketRequest request = new TicketRequest("Something broke", Priority.HIGH, 999);
 
         when(assetRepository.findById(999))
                 .thenReturn(Optional.empty());
