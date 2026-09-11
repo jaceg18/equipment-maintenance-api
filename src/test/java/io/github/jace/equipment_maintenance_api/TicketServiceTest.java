@@ -45,7 +45,7 @@ class TicketServiceTest {
         asset.setName("CNC Machine #4");
         asset.setLocation("Building A");
 
-        TicketRequest request = new TicketRequest("Hydraulic Leak", Priority.HIGH, 1);
+        TicketRequest request = new TicketRequest("Hydraulic leak", Priority.HIGH, 1);
 
         when(assetRepository.findById(1))
                 .thenReturn(Optional.of(asset));
